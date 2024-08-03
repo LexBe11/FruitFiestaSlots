@@ -59,11 +59,11 @@ function checkWin(win) {
     let winAmount = 0;
     for (const [symbol, count] of Object.entries(symbolCounts)) {
       if (count === 3) {
-        winAmount = prizeAmounts[symbol];
+        winAmount += prizeAmounts[symbol];
       } else if (count === 6) {
-        winAmount = prizeAmounts[symbol] * 2;
+        winAmount += prizeAmounts[symbol] * 2;
       } else if (count === 9) {
-        winAmount = prizeAmounts[symbol] * 3;
+        winAmount += prizeAmounts[symbol] * 3;
       }
     }
 
@@ -78,5 +78,6 @@ function checkWin(win) {
     result.textContent = 'Try Again!';
   }
 
+  balanceDisplay.textContent = `Balance: $${balance}`;
   spinButton.disabled = false;
 }
