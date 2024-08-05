@@ -1,62 +1,66 @@
-/* CSS for Slot Machine */
-
 body {
     font-family: Arial, sans-serif;
-    background: url('https://example.com/mexican-themed-background.jpg') no-repeat center center fixed;
+    background-image: url('path-to-your-background-image.jpg'); /* Add your Mexican-themed background image */
     background-size: cover;
+    color: white;
     text-align: center;
-    color: #fff;
 }
 
-.slot-machine {
+h1 {
+    font-size: 3em;
+    margin: 20px 0;
+}
+
+#slot-machine {
+    margin: 20px auto;
     display: inline-block;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
 }
 
 .reel {
     font-size: 2em;
-    margin: 10px;
+    margin: 0 10px;
+    display: inline-block;
 }
 
-#spin {
-    background-color: #ffcc00;
-    color: #000;
-    border: none;
+#spinButton {
     padding: 10px 20px;
-    font-size: 1em;
-    border-radius: 5px;
+    font-size: 1.2em;
+    background-color: #ff5733;
+    border: none;
+    color: white;
     cursor: pointer;
-    margin: 20px;
+    border-radius: 5px;
 }
 
-#result, #payout, #jackpot {
-    margin-top: 20px;
-    font-size: 1.2em;
+#spinButton:hover {
+    background-color: #ff7f50;
 }
 
 .animation {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center;
-    color: #fff;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
 }
 
 .jackpot-message {
-    font-size: 2em;
-    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: gold;
 }
 
 .confetti {
+    position: absolute;
     width: 100%;
     height: 100%;
-    background: url('https://example.com/confetti.gif') no-repeat center center;
+    background: url('path-to-your-confetti-image.png'); /* Add your confetti image */
     background-size: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
+    animation: confettiFall 5s ease-in-out infinite;
+}
+
+@keyframes confettiFall {
+    0% { top: -100%; }
+    100% { top: 100%; }
 }
