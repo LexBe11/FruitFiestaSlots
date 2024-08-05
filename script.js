@@ -1,160 +1,120 @@
-// JavaScript for Slot Machine
+// Define symbols for the reels
+const symbols = ['7', '⭐', '🟠', '⚫', '💀', '🟥', '🔵', '🟣', '🌟', '🟢', '🔴', '❌'];
 
-const symbols = [
-    '🔴', '🟢', '🔵', '🟣', '🌟', '💀', '🟥', '🟠', '⚫', '🍉', '🍋', '🍒', '🍎', '🍏', '7', '🚫'
-];
-
-// Define symbol weights
-const symbolWeights = {
-    '🔴': 1,
-    '🟢': 1,
-    '🔵': 1,
-    '🟣': 1,
-    '🌟': 1,
-    '💀': 1,
-    '🟥': 1,
-    '🟠': 1,
-    '⚫': 1,
-    '🍉': 1,
-    '🍋': 1,
-    '🍒': 1,
-    '🍎': 1,
-    '🍏': 1,
-    '7': 1,
-    '🚫': 11 // "No Win" symbol with a 1 in 12 chance
+// Define payout combinations with updated payouts and rarity
+const payouts = {
+    '❌': { amount: 0, rarity: '1 in 2' },                  // No Win
+    '🚫': { amount: 0, rarity: '1 in 2' },                  // Nothing
+    '7': { amount: 1000, rarity: '1 in 10' },               // Single Seven
+    '⭐': { amount: 500, rarity: '1 in 15' },                // Single Star
+    '🟠': { amount: 400, rarity: '1 in 15' },                // Single Orange Circle
+    '⚫': { amount: 400, rarity: '1 in 15' },                // Single Black Circle
+    '💀': { amount: 400, rarity: '1 in 15' },                // Single Skull
+    '🟥': { amount: 400, rarity: '1 in 15' },                // Single Red Square
+    '🔵': { amount: 400, rarity: '1 in 15' },                // Single Blue Circle
+    '🟣': { amount: 300, rarity: '1 in 20' },                // Single Purple Circle
+    '🌟': { amount: 300, rarity: '1 in 20' },                // Single Star
+    '🟢': { amount: 300, rarity: '1 in 20' },                // Single Green Circle
+    '🔴': { amount: 300, rarity: '1 in 20' },                // Single Red Circle
+    '7 7': { amount: 2000, rarity: '1 in 100' },            // Two Sevens
+    '⭐ ⭐': { amount: 1000, rarity: '1 in 75' },             // Two Stars
+    '🟠 🟠': { amount: 800, rarity: '1 in 75' },             // Two Orange Circles
+    '⚫ ⚫': { amount: 800, rarity: '1 in 75' },             // Two Black Circles
+    '💀 💀': { amount: 800, rarity: '1 in 75' },             // Two Skulls
+    '🟥 🟥': { amount: 800, rarity: '1 in 75' },             // Two Red Squares
+    '🔵 🔵': { amount: 800, rarity: '1 in 75' },             // Two Blue Circles
+    '🟣 🟣': { amount: 600, rarity: '1 in 50' },             // Two Purple Circles
+    '🌟 🌟': { amount: 600, rarity: '1 in 50' },             // Two Stars
+    '🟢 🟢': { amount: 600, rarity: '1 in 50' },             // Two Green Circles
+    '🔴 🔴': { amount: 600, rarity: '1 in 50' },             // Two Red Circles
+    '7 7 7': { amount: 5000, rarity: '1 in 500' },          // Three Sevens
+    '⭐ ⭐ ⭐': { amount: 2500, rarity: '1 in 400' },         // Three Stars
+    '🟠 🟠 🟠': { amount: 2000, rarity: '1 in 400' },       // Three Orange Circles
+    '⚫ ⚫ ⚫': { amount: 2000, rarity: '1 in 400' },        // Three Black Circles
+    '💀 💀 💀': { amount: 2000, rarity: '1 in 400' },        // Three Skulls
+    '🟥 🟥 🟥': { amount: 2000, rarity: '1 in 400' },        // Three Red Squares
+    '🔵 🔵 🔵': { amount: 2000, rarity: '1 in 400' },        // Three Blue Circles
+    '🟣 🟣 🟣': { amount: 1500, rarity: '1 in 300' },        // Three Purple Circles
+    '🌟 🌟 🌟': { amount: 1500, rarity: '1 in 300' },        // Three Stars
+    '🟢 🟢 🟢': { amount: 1500, rarity: '1 in 300' },        // Three Green Circles
+    '🔴 🔴 🔴': { amount: 1500, rarity: '1 in 300' },        // Three Red Circles
+    '7 7 7 7': { amount: 10000, rarity: '1 in 5000' },      // Four Sevens
+    '⭐ ⭐ ⭐ ⭐': { amount: 5000, rarity: '1 in 4000' },     // Four Stars
+    '🟠 🟠 🟠 🟠': { amount: 4000, rarity: '1 in 4000' },    // Four Orange Circles
+    '⚫ ⚫ ⚫ ⚫': { amount: 4000, rarity: '1 in 4000' },     // Four Black Circles
+    '💀 💀 💀 💀': { amount: 4000, rarity: '1 in 4000' },    // Four Skulls
+    '🟥 🟥 🟥 🟥': { amount: 4000, rarity: '1 in 4000' },    // Four Red Squares
+    '🔵 🔵 🔵 🔵': { amount: 4000, rarity: '1 in 4000' },    // Four Blue Circles
+    '🟣 🟣 🟣 🟣': { amount: 3000, rarity: '1 in 3000' },    // Four Purple Circles
+    '🌟 🌟 🌟 🌟': { amount: 3000, rarity: '1 in 3000' },    // Four Stars
+    '🟢 🟢 🟢 🟢': { amount: 3000, rarity: '1 in 3000' },    // Four Green Circles
+    '🔴 🔴 🔴 🔴': { amount: 3000, rarity: '1 in 3000' },    // Four Red Circles
+    '7 7 7 7 7': { amount: 20000, rarity: '1 in 50000' },  // Five Sevens
+    '⭐ ⭐ ⭐ ⭐ ⭐': { amount: 10000, rarity: '1 in 40000' }, // Five Stars
+    '🟠 🟠 🟠 🟠 🟠': { amount: 8000, rarity: '1 in 40000' },// Five Orange Circles
+    '⚫ ⚫ ⚫ ⚫ ⚫': { amount: 8000, rarity: '1 in 40000' }, // Five Black Circles
+    '💀 💀 💀 💀 💀': { amount: 8000, rarity: '1 in 40000' },// Five Skulls
+    '🟥 🟥 🟥 🟥 🟥': { amount: 8000, rarity: '1 in 40000' },// Five Red Squares
+    '🔵 🔵 🔵 🔵 🔵': { amount: 8000, rarity: '1 in 40000' },// Five Blue Circles
+    '🟣 🟣 🟣 🟣 🟣': { amount: 6000, rarity: '1 in 30000' },// Five Purple Circles
+    '🌟 🌟 🌟 🌟 🌟': { amount: 6000, rarity: '1 in 30000' },// Five Stars
+    '🟢 🟢 🟢 🟢 🟢': { amount: 6000, rarity: '1 in 30000' },// Five Green Circles
+    '🔴 🔴 🔴 🔴 🔴': { amount: 6000, rarity: '1 in 30000' },// Five Red Circles
+    '7 7 7 7 7 7': { amount: 50000, rarity: '1 in 100000' }, // Six Sevens
+    '⭐ ⭐ ⭐ ⭐ ⭐ ⭐': { amount: 25000, rarity: '1 in 80000' }, // Six Stars
+    '🟠 🟠 🟠 🟠 🟠 🟠': { amount: 20000, rarity: '1 in 80000' },// Six Orange Circles
+    '⚫ ⚫ ⚫ ⚫ ⚫ ⚫': { amount: 20000, rarity: '1 in 80000' },// Six Black Circles
+    '💀 💀 💀 💀 💀 💀': { amount: 20000, rarity: '1 in 80000' },// Six Skulls
+    '🟥 🟥 🟥 🟥 🟥 🟥': { amount: 20000, rarity: '1 in 80000' },// Six Red Squares
+    '🔵 🔵 🔵 🔵 🔵 🔵': { amount: 20000, rarity: '1 in 80000' },// Six Blue Circles
+    '🟣 🟣 🟣 🟣 🟣 🟣': { amount: 15000, rarity: '1 in 60000' },// Six Purple Circles
+    '🌟 🌟 🌟 🌟 🌟 🌟': { amount: 15000, rarity: '1 in 60000' },// Six Stars
+    '🟢 🟢 🟢 🟢 🟢 🟢': { amount: 15000, rarity: '1 in 60000' },// Six Green Circles
+    '🔴 🔴 🔴 🔴 🔴 🔴': { amount: 15000, rarity: '1 in 60000' },// Six Red Circles
+    '7 7 7 7 7 7 7': { amount: 100000, rarity: '1 in 500000' }, // Seven Sevens
+    '⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐': { amount: 50000, rarity: '1 in 400000' }, // Seven Stars
+    '🟠 🟠 🟠 🟠 🟠 🟠 🟠': { amount: 40000, rarity: '1 in 400000' },// Seven Orange Circles
+    '⚫ ⚫ ⚫ ⚫ ⚫ ⚫ 🟠': { amount: 40000, rarity: '1 in 400000' },// Seven Black Circles
+    '💀 💀 💀 💀 💀 💀 💀': { amount: 40000, rarity: '1 in 400000' },// Seven Skulls
+    '🟥 🟥 🟥 🟥 🟥 🟥 🟥': { amount: 40000, rarity: '1 in 400000' },// Seven Red Squares
+    '🔵 🔵 🔵 🔵 🔵 🔵 🔵': { amount: 40000, rarity: '1 in 400000' },// Seven Blue Circles
+    '🟣 🟣 🟣 🟣 🟣 🟣 🟣': { amount: 30000, rarity: '1 in 300000' },// Seven Purple Circles
+    '🌟 🌟 🌟 🌟 🌟 🌟 🌟': { amount: 30000, rarity: '1 in 300000' },// Seven Stars
+    '🟢 🟢 🟢 🟢 🟢 🟢 🟢': { amount: 30000, rarity: '1 in 300000' },// Seven Green Circles
+    '🔴 🔴 🔴 🔴 🔴 🔴 🔴': { amount: 30000, rarity: '1 in 300000' },// Seven Red Circles
+    '7 7 7 7 7 7 7 7': { amount: 200000, rarity: '1 in 1000000' }, // Eight Sevens
+    '⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐': { amount: 100000, rarity: '1 in 800000' }, // Eight Stars
+    '🟠 🟠 🟠 🟠 🟠 🟠 🟠 🟠': { amount: 80000, rarity: '1 in 800000' },// Eight Orange Circles
+    '⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ 🟠': { amount: 80000, rarity: '1 in 800000' },// Eight Black Circles
+    '💀 💀 💀 💀 💀 💀 💀 💀': { amount: 80000, rarity: '1 in 800000' },// Eight Skulls
+    '🟥 🟥 🟥 🟥 🟥 🟥 🟥 🟥': { amount: 80000, rarity: '1 in 800000' },// Eight Red Squares
+    '🔵 🔵 🔵 🔵 🔵 🔵 🔵 🔵': { amount: 80000, rarity: '1 in 800000' },// Eight Blue Circles
+    '🟣 🟣 🟣 🟣 🟣 🟣 🟣 🟣': { amount: 60000, rarity: '1 in 600000' },// Eight Purple Circles
+    '🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟': { amount: 60000, rarity: '1 in 600000' },// Eight Stars
+    '🟢 🟢 🟢 🟢 🟢 🟢 🟢 🟢': { amount: 60000, rarity: '1 in 600000' },// Eight Green Circles
+    '🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴': { amount: 60000, rarity: '1 in 600000' },// Eight Red Circles
+    '7 7 7 7 7 7 7 7 7': { amount: 500000, rarity: '1 in 5000000' }, // Nine Sevens
+    '⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐': { amount: 250000, rarity: '1 in 4000000' }, // Nine Stars
+    '🟠 🟠 🟠 🟠 🟠 🟠 🟠 🟠 🟠': { amount: 200000, rarity: '1 in 4000000' },// Nine Orange Circles
+    '⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ 🟠': { amount: 200000, rarity: '1 in 4000000' },// Nine Black Circles
+    '💀 💀 💀 💀 💀 💀 💀 💀 💀': { amount: 200000, rarity: '1 in 4000000' },// Nine Skulls
+    '🟥 🟥 🟥 🟥 🟥 🟥 🟥 🟥 🟥': { amount: 200000, rarity: '1 in 4000000' },// Nine Red Squares
+    '🔵 🔵 🔵 🔵 🔵 🔵 🔵 🔵 🔵': { amount: 200000, rarity: '1 in 4000000' },// Nine Blue Circles
+    '🟣 🟣 🟣 🟣 🟣 🟣 🟣 🟣 🟣': { amount: 150000, rarity: '1 in 3000000' },// Nine Purple Circles
+    '🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟': { amount: 150000, rarity: '1 in 3000000' },// Nine Stars
+    '🟢 🟢 🟢 🟢 🟢 🟢 🟢 🟢 🟢': { amount: 150000, rarity: '1 in 3000000' },// Nine Green Circles
+    '🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴': { amount: 150000, rarity: '1 in 3000000' },// Nine Red Circles
+    '7 7 7 7 7 7 7 7 7 7': { amount: 1000000, rarity: '1 in 10000000' }, // Ten Sevens
+    '⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐': { amount: 500000, rarity: '1 in 8000000' }, // Ten Stars
+    '🟠 🟠 🟠 🟠 🟠 🟠 🟠 🟠 🟠 🟠': { amount: 400000, rarity: '1 in 8000000' },// Ten Orange Circles
+    '⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ 🟠': { amount: 400000, rarity: '1 in 8000000' },// Ten Black Circles
+    '💀 💀 💀 💀 💀 💀 💀 💀 💀 💀': { amount: 400000, rarity: '1 in 8000000' },// Ten Skulls
+    '🟥 🟥 🟥 🟥 🟥 🟥 🟥 🟥 🟥 🟥': { amount: 400000, rarity: '1 in 8000000' },// Ten Red Squares
+    '🔵 🔵 🔵 🔵 🔵 🔵 🔵 🔵 🔵 🔵': { amount: 400000, rarity: '1 in 8000000' },// Ten Blue Circles
+    '🟣 🟣 🟣 🟣 🟣 🟣 🟣 🟣 🟣 🟣': { amount: 300000, rarity: '1 in 6000000' },// Ten Purple Circles
+    '🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟': { amount: 300000, rarity: '1 in 6000000' },// Ten Stars
+    '🟢 🟢 🟢 🟢 🟢 🟢 🟢 🟢 🟢 🟢': { amount: 300000, rarity: '1 in 6000000' },// Ten Green Circles
+    '🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴': { amount: 300000, rarity: '1 in 6000000' },// Ten Red Circles
 };
 
-// Define jackpot types with rarities
-const jackpots = {
-    'Mini Jackpot': { amount: 100, rarity: '1 in 200' },
-    'Minor Jackpot': { amount: 500, rarity: '1 in 1,000' },
-    'Major Jackpot': { amount: 5,000, rarity: '1 in 10,000' },
-    'Grand Jackpot': { amount: 50,000, rarity: '1 in 100,000' },
-    'Mega Jackpot': { amount: 500,000, rarity: '1 in 500,000' },
-    'Ultra Grand Jackpot': { amount: { min: 500_000, max: 1_200_000 }, rarity: '1 in 1,000,000' }
-};
-
-// Function to generate a reel with weighted symbols
-function generateReel(symbolCount = 3) {
-    const reel = [];
-    const totalWeight = Object.values(symbolWeights).reduce((a, b) => a + b, 0);
-    
-    for (let i = 0; i < symbolCount; i++) {
-        let randomWeight = Math.random() * totalWeight;
-        for (let symbol of Object.keys(symbolWeights)) {
-            randomWeight -= symbolWeights[symbol];
-            if (randomWeight <= 0) {
-                reel.push(symbol);
-                break;
-            }
-        }
-    }
-    return reel;
-}
-
-// Function to check for jackpots
-function checkJackpot(reels) {
-    const reelString = reels.map(r => r.join(' ')).join(' | ');
-    let payout = 0;
-    let jackpotType = '';
-    
-    const allSymbols = reels.flat();
-    const symbolCount = {};
-    
-    for (const symbol of allSymbols) {
-        symbolCount[symbol] = (symbolCount[symbol] || 0) + 1;
-    }
-    
-    const maxSymbol = Object.keys(symbolCount).reduce((a, b) => symbolCount[a] > symbolCount[b] ? a : b);
-    
-    switch (symbolCount[maxSymbol]) {
-        case 12:
-            payout = jackpots['Ultra Grand Jackpot'].amount.min + Math.random() * (jackpots['Ultra Grand Jackpot'].amount.max - jackpots['Ultra Grand Jackpot'].amount.min);
-            jackpotType = 'Ultra Grand Jackpot';
-            break;
-        case 9:
-            payout = jackpots['Mega Jackpot'].amount;
-            jackpotType = 'Mega Jackpot';
-            break;
-        case 7:
-            payout = jackpots['Grand Jackpot'].amount;
-            jackpotType = 'Grand Jackpot';
-            break;
-        case 6:
-            payout = jackpots['Major Jackpot'].amount;
-            jackpotType = 'Major Jackpot';
-            break;
-        case 5:
-            payout = jackpots['Minor Jackpot'].amount;
-            jackpotType = 'Minor Jackpot';
-            break;
-        case 3:
-            payout = jackpots['Mini Jackpot'].amount;
-            jackpotType = 'Mini Jackpot';
-            break;
-        case 1:
-            payout = symbolCount['🚫'] >= 1 ? 0 : 'Nothing';
-            jackpotType = 'Nothing';
-            break;
-        default:
-            payout = 0;
-            jackpotType = 'No Win';
-            break;
-    }
-
-    return { payout, jackpotType, reelString };
-}
-
-// Spin the slot machine
-function spin() {
-    const reels = [generateReel(), generateReel(), generateReel()];
-    const { payout, jackpotType, reelString } = checkJackpot(reels);
-
-    // Display results
-    document.getElementById('reel1').innerText = reels[0].join(' ');
-    document.getElementById('reel2').innerText = reels[1].join(' ');
-    document.getElementById('reel3').innerText = reels[2].join(' ');
-    document.getElementById('result').innerText = `Result: ${reelString}`;
-    document.getElementById('payout').innerText = `Payout: ${payout}`;
-    document.getElementById('jackpot').innerText = `Jackpot Type: ${jackpotType}`;
-    
-    if (payout > 0) {
-        // Play animations
-        if (jackpotType.includes('Jackpot')) {
-            playJackpotAnimation(jackpotType);
-        }
-    }
-}
-
-// Play jackpot animations
-function playJackpotAnimation(jackpotType) {
-    const animationContainer = document.createElement('div');
-    animationContainer.className = 'animation';
-    document.body.appendChild(animationContainer);
-
-    const message = document.createElement('div');
-    message.className = 'jackpot-message';
-    message.innerText = `Congratulations! You've won the ${jackpotType}!`;
-    animationContainer.appendChild(message);
-
-    // Add confetti effect
-    const confetti = document.createElement('div');
-    confetti.className = 'confetti';
-    animationContainer.appendChild(confetti);
-    
-    // Add a fade-in effect for the message
-    message.style.opacity = 0;
-    message.style.transition = 'opacity 2s ease-in-out';
-    setTimeout(() => message.style.opacity = 1, 100);
-
-    // Remove animation container after animation
-    setTimeout(() => document.body.removeChild(animationContainer), 5000);
-}
-
-// Add event listener for the spin button
-document.getElementById('spinButton').addEventListener('click', spin);
-
-// Play background music
-const audio = new Audio('path-to-your-music.mp3'); // Replace with the path to your music file
-audio.loop = true; // Set to loop
-audio.play();
+I’ve added some rare combinations with high numbers of items and very low rarity, as well as rare symbols with the highest rarities. This should create a more balanced and exciting system.
