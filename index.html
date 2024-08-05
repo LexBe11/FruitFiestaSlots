@@ -3,48 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slot Machine Casino</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Mexican Slot Machine Casino</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="casino">
-        <h1>Mexican Slot Machine Casino</h1>
-        <div id="balance" class="balance">
-            <p>Cash Balance: $<span id="cash-balance">150</span></p>
-            <p>Pesos Balance: $<span id="pesos-balance">150</span></p>
-        </div>
-        <div class="games">
-            <button class="game-btn" data-game="fiesta">Fiesta Slots</button>
-            <button class="game-btn" data-game="aztecas">Aztecas Slots</button>
-            <button class="game-btn" data-game="tropical">Tropical Slots</button>
-            <button class="game-btn" data-game="space">Space Slots</button>
-            <button class="game-btn" data-game="wildwest">Wild West Slots</button>
-        </div>
-        <div class="slot-machine">
-            <div class="reels-container">
-                <div id="reel1" class="reel"></div>
-                <div id="reel2" class="reel"></div>
-                <div id="reel3" class="reel"></div>
-            </div>
-            <button id="spin">Spin</button>
-        </div>
+    <div class="slot-machine">
+        <div class="reel" id="reel1">🔴 🔴 🔴</div>
+        <div class="reel" id="reel2">🔴 🔴 🔴</div>
+        <div class="reel" id="reel3">🔴 🔴 🔴</div>
+        <br>
+        <button id="spin">Spin</button>
         <div id="result"></div>
+        <div id="payout"></div>
+        <div id="jackpot"></div>
     </div>
-    
-    <!-- Embed YouTube Video for Background Music -->
-    <div id="music-container">
-        <iframe id="background-music" src="https://www.youtube.com/embed/C-T100dNZXA?autoplay=1&loop=1&playlist=C-T100dNZXA" 
-                title="YouTube video player" frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-
-    <!-- Music Controls -->
-    <div id="music-controls">
-        <button id="play-pause">Pause Music</button>
-    </div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="script.js"></script>
 </body>
 </html>
