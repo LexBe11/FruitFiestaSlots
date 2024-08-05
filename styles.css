@@ -16,33 +16,18 @@ header h1 {
     margin: 0;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-nav ul li a {
-    color: #f5f5f5;
-    text-decoration: none;
-}
-
 main {
     padding: 20px;
 }
 
-#slots-reels {
+.slot-machine {
     display: flex;
     justify-content: center;
     margin: 20px 0;
 }
 
-.slot {
-    font-size: 2em;
+.reel {
+    font-size: 3em;
     margin: 0 10px;
     width: 100px;
     height: 100px;
@@ -56,7 +41,7 @@ main {
 }
 
 .spin {
-    transform: rotate(3600deg);
+    transform: rotateX(360deg);
 }
 
 footer {
