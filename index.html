@@ -33,13 +33,18 @@
     
     <!-- Embed YouTube Video for Background Music -->
     <div id="music-container">
-        <iframe id="background-music" src="https://www.youtube.com/embed/C-T100dNZXA?si=F4fzlXVffpzJ9Ib4&amp;start=1031" 
+        <iframe id="background-music" src="https://www.youtube.com/embed/C-T100dNZXA?autoplay=1&loop=1&playlist=C-T100dNZXA" 
                 title="YouTube video player" frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
 
+    <!-- Music Controls -->
+    <div id="music-controls">
+        <button id="play-pause">Pause Music</button>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="script.js"></script>
 </body>
 </html>
-
