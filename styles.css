@@ -1,53 +1,118 @@
 body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: url('mexican-background.jpg') no-repeat center center fixed;
+    background-size: cover;
     font-family: Arial, sans-serif;
-    background-color: #1c1c1c;
-    color: #f5f5f5;
+}
+
+.casino {
     text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #333;
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    border-radius: 8px;
     padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
-header h1 {
-    margin: 0;
+h1 {
+    font-size: 2.5em;
+    color: #ff5733; /* Bright color for a festive look */
+    margin-bottom: 20px;
 }
 
-main {
-    padding: 20px;
+.balance {
+    margin-bottom: 20px;
+}
+
+.balance p {
+    font-size: 18px;
+    margin: 5px;
+    color: #333;
+}
+
+.games {
+    margin-bottom: 20px;
+}
+
+.game-btn {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ff5733; /* Bright color for buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.game-btn:hover {
+    background-color: #c70039; /* Darker color on hover */
 }
 
 .slot-machine {
     display: flex;
-    justify-content: center;
-    margin: 20px 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reels-container {
+    display: flex;
 }
 
 .reel {
-    font-size: 3em;
-    margin: 0 10px;
-    width: 100px;
-    height: 100px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #f5f5f5;
+    flex-direction: column;
+    width: 100px;
+    height: 200px;
+    overflow: hidden;
+    border: 2px solid #333;
+    margin: 0 10px;
+    position: relative;
+    background: #f9f9f9;
     border-radius: 10px;
-    background: #444;
-    transition: transform 1s ease-in-out;
+}
+
+.symbol {
+    font-size: 24px;
+    text-align: center;
+    line-height: 100px;
+    height: 100px;
+    width: 100px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #c70039;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
 }
 
 .spin {
-    transform: rotateX(360deg);
+    animation: spin 1s ease-out;
 }
 
-footer {
-    background-color: #333;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+@keyframes spin {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-300%); }
 }
+
