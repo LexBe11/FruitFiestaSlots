@@ -141,16 +141,20 @@ function playJackpotAnimation(jackpotType) {
     const confetti = document.createElement('div');
     confetti.className = 'confetti';
     animationContainer.appendChild(confetti);
+    
+    // Add a fade-in effect for the message
+    message.style.opacity = 0;
+    message.style.transition = 'opacity 2s ease-in-out';
+    setTimeout(() => message.style.opacity = 1, 100);
 
-    // Play confetti sound
-    const audio = new Audio('confetti.mp3');
-    audio.play();
-
-    // Remove animation after a few seconds
-    setTimeout(() => {
-        document.body.removeChild(animationContainer);
-    }, 5000);
+    // Remove animation container after animation
+    setTimeout(() => document.body.removeChild(animationContainer), 5000);
 }
 
-// Bind spin button
-document.getElementById('spin').addEventListener('click', spin);
+// Add event listener for the spin button
+document.getElementById('spinButton').addEventListener('click', spin);
+
+// Play background music
+const audio = new Audio('path-to-your-music.mp3'); // Replace with the path to your music file
+audio.loop = true; // Set to loop
+audio.play();
