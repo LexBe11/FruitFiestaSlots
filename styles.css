@@ -15,6 +15,7 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
 h1 {
@@ -57,10 +58,12 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 .reels-container {
     display: flex;
+    margin-bottom: 20px;
 }
 
 .reel {
@@ -116,3 +119,16 @@ button:hover {
     100% { transform: translateY(-300%); }
 }
 
+#music-container {
+    position: absolute;
+    top: -100px; /* Hide the iframe off-screen */
+    left: -100px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+#background-music {
+    width: 1px;
+    height: 1px;
+}
