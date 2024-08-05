@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Fortuna Fiesta - Slot Machines</title>
+    <title>Slot Machine Casino</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="casino">
-        <h1>La Fortuna Fiesta</h1>
-        <div class="balance">
-            <p>Cash: $<span id="cash-balance">150</span></p>
-            <p>Pesos: $<span id="pesos-balance">150</span></p>
+        <h1>Mexican Slot Machine Casino</h1>
+        <div id="balance" class="balance">
+            <p>Cash Balance: $<span id="cash-balance">150</span></p>
+            <p>Pesos Balance: $<span id="pesos-balance">150</span></p>
         </div>
         <div class="games">
-            <button class="game-btn" data-game="fiesta">Play La Fiesta Jackpot</button>
-            <button class="game-btn" data-game="aztecas">Play El Tesoro de los Aztecas</button>
-            <button class="game-btn" data-game="tropical">Play Tropical Paradise</button>
-            <button class="game-btn" data-game="space">Play Space Odyssey</button>
-            <button class="game-btn" data-game="wildwest">Play Wild West Gold</button>
+            <button class="game-btn" data-game="fiesta">Fiesta Slots</button>
+            <button class="game-btn" data-game="aztecas">Aztecas Slots</button>
+            <button class="game-btn" data-game="tropical">Tropical Slots</button>
+            <button class="game-btn" data-game="space">Space Slots</button>
+            <button class="game-btn" data-game="wildwest">Wild West Slots</button>
         </div>
         <div class="slot-machine">
             <div class="reels-container">
-                <div class="reel" id="reel1"></div>
-                <div class="reel" id="reel2"></div>
-                <div class="reel" id="reel3"></div>
+                <div id="reel1" class="reel"></div>
+                <div id="reel2" class="reel"></div>
+                <div id="reel3" class="reel"></div>
             </div>
             <button id="spin">Spin</button>
-            <div id="result"></div>
         </div>
+        <div id="result"></div>
+    </div>
+    
+    <!-- Embed YouTube Video for Background Music -->
+    <div id="music-container">
+        <iframe id="background-music" src="https://www.youtube.com/embed/C-T100dNZXA?si=F4fzlXVffpzJ9Ib4&amp;start=1031" 
+                title="YouTube video player" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
