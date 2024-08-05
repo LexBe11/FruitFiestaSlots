@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Slot Machine</title>
+    <title>La Fortuna Fiesta - Slot Machines</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Custom Slot Machine</h1>
-    </header>
-
-    <main>
-        <section id="slot-machine">
-            <div class="slot-machine">
-                <div class="reel">💀</div>
-                <div class="reel">🌸</div>
-                <div class="reel">BAR</div>
-                <div class="reel">7️⃣</div>
+    <div class="casino">
+        <h1>La Fortuna Fiesta</h1>
+        <div class="balance">
+            <p>Cash: $<span id="cash-balance">150</span></p>
+            <p>Pesos: $<span id="pesos-balance">150</span></p>
+        </div>
+        <div class="games">
+            <button class="game-btn" data-game="fiesta">Play La Fiesta Jackpot</button>
+            <button class="game-btn" data-game="aztecas">Play El Tesoro de los Aztecas</button>
+            <button class="game-btn" data-game="tropical">Play Tropical Paradise</button>
+            <button class="game-btn" data-game="space">Play Space Odyssey</button>
+            <button class="game-btn" data-game="wildwest">Play Wild West Gold</button>
+        </div>
+        <div class="slot-machine">
+            <div class="reels-container">
+                <div class="reel" id="reel1"></div>
+                <div class="reel" id="reel2"></div>
+                <div class="reel" id="reel3"></div>
             </div>
-            <input type="number" id="bet-amount" placeholder="Enter your bet" min="1">
-            <button id="spinButton">Spin</button>
+            <button id="spin">Spin</button>
             <div id="result"></div>
-            <div id="balance">Balance: $150</div>
-        </section>
-    </main>
+        </div>
+    </div>
 
-    <footer>
-        <p>&copy; 2024 Custom Casino Game</p>
-    </footer>
-
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
