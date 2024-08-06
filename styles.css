@@ -37,13 +37,14 @@ h1 {
 .slot {
     width: 80px;
     height: 100px;
-    background-color: #fff;
+    background-color: #000; /* Changed to black */
     border: 2px solid #ccc;
     margin: 0 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2em;
+    color: #fff; /* Ensure text is visible on black background */
     border-radius: 5px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
@@ -69,4 +70,3 @@ button:hover {
     font-size: 1.2em;
     color: #ffcc00;
 }
-
