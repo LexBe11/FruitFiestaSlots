@@ -1,185 +1,191 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const suits = ['♥', '♦', '♣', '♠'];
-    const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-    let deck = [];
-    let playerHand = [];
-    let aiHand = [];
-    let pile = [];
-    let result = document.getElementById('result');
-
-    // Initialize deck
-    function createDeck() {
-        deck = [];
-        for (let suit of suits) {
-            for (let value of values) {
-                deck.push({ value, suit });
-            }
-        }
-        // Add custom WILD and MINI WILD cards
-        deck.push({ value: 'WILD', suit: '' });
-        deck.push({ value: 'MINI WILD', suit: '' });
-        deck = shuffleDeck(deck);
+    const spinButton = document.getElementById('spin-button');
+    const shootButton = document.getElementById('shoot-button');
+    const playerList = document.getElementById('player-list');
+    const playersContainer = document.getElementById('players');
+    const scoreDisplay = document.getElementById('score');
+    const spinPriceDisplay = document.getElementById('spin-price');
+    const inventoryList = document.getElementById('inventory-list');
+    const playerSelector = document.getElementById('player-selector');
+    const selectBestButton = document.getElementById('select-best-button');
+    
+    let score = 0;
+    let spinPrice = 50;
+    
+    // Define player types with scores
+    const legends = [
+        { name: 'Michael Jordan - Prime', score: 100 },
+        { name: 'Michael Jordan - In The Zone', score: 120 },
+        { name: 'LeBron James - Prime', score: 105 },
+        { name: 'LeBron James - In The Zone', score: 125 },
+        { name: 'Stephen Curry - Prime', score: 110 },
+        { name: 'Stephen Curry - In The Zone', score: 130 },
+        { name: 'Kobe Bryant - Prime', score: 115 },
+        { name: 'Kobe Bryant - In The Zone', score: 135 }
+    ];
+    
+    const sevenFeetPlayers = [
+        { name: 'Giannis Antetokounmpo', score: 95 },
+        { name: 'Rudy Gobert', score: 90 },
+        { name: 'Kristaps Porzingis', score: 85 }
+    ];
+    
+    const goodPlayers = [
+        { name: 'Damian Lillard', score: 95 },
+        { name: 'Klay Thompson', score: 90 },
+        { name: 'Jimmy Butler', score: 92 }
+    ];
+    
+    const midPlayers = [
+        { name: 'D\'Angelo Russell', score: 80 },
+        { name: 'Malcolm Brogdon', score: 82 },
+        { name: 'Tobias Harris', score: 84 },
+        { name: 'Fred VanVleet', score: 83 }
+    ];
+    
+    const badPlayers = [
+        { name: 'Tommy Flop', score: 56 },
+        { name: 'Jimmy Fumble', score: 58 },
+        { name: 'Billy Miss', score: 60 },
+        { name: 'Johnny NoHoops', score: 62 },
+        { name: 'Danny Benchwarmer', score: 64 }
+    ];
+    
+    // Inventory to store selected players
+    let inventory = [
+        ...midPlayers.slice(0, 3),
+        ...goodPlayers.slice(0, 1),
+        ...badPlayers.slice(0, 3)
+    ];
+    
+    function updateScore() {
+        scoreDisplay.textContent = `Score: ${score}`;
     }
-
-    // Shuffle deck
-    function shuffleDeck(deck) {
-        for (let i = deck.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [deck[i], deck[j]] = [deck[j], deck[i]];
-        }
-        return deck;
+    
+    function addPlayerToList(playerName, score) {
+        const li = document.createElement('li');
+        li.textContent = `${playerName} (Score: ${score})`;
+        playerList.appendChild(li);
     }
-
-    // Deal card
-    function dealCard() {
-        return deck.pop();
-    }
-
-    // Display cards
-    function displayCards() {
-        const playerHandContainer = document.getElementById('player-hand');
-        const aiHandContainer = document.getElementById('ai-hand');
-        const pileContainer = document.getElementById('pile');
-
-        playerHandContainer.innerHTML = '';
-        aiHandContainer.innerHTML = '';
-        pileContainer.innerHTML = '';
-
-        playerHand.forEach(card => {
-            const cardElement = createCardElement(card);
-            cardElement.draggable = true;
-            cardElement.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', `${card.value} of ${card.suit}`);
-            });
-            playerHandContainer.appendChild(cardElement);
-        });
-
-        aiHand.forEach(card => {
-            const cardElement = createCardElement(card);
-            aiHandContainer.appendChild(cardElement);
-        });
-
-        pile.forEach(card => {
-            const cardElement = createCardElement(card);
-            cardElement.addEventListener('dragover', (e) => e.preventDefault());
-            cardElement.addEventListener('drop', (e) => {
-                e.preventDefault();
-                const cardData = e.dataTransfer.getData('text/plain').split(' of ');
-                const [value, suit] = cardData;
-                const droppedCard = { value, suit };
-                if (pile.length < 2) {
-                    pile.push(droppedCard);
-                    playerHand = playerHand.filter(c => c.value !== value || c.suit !== suit);
-                    displayCards();
-                    checkWinner();
-                }
-            });
-            pileContainer.appendChild(cardElement);
-        });
-    }
-
-    // Create card element
-    function createCardElement(card) {
-        const cardElement = document.createElement('div');
-        cardElement.className = 'card';
+    
+    function updateInventoryList() {
+        inventoryList.innerHTML = ''; // Clear previous inventory
+        playerSelector.innerHTML = ''; // Clear previous selector options
         
-        if (card.value === 'WILD') {
-            cardElement.classList.add('wild');
-            cardElement.innerHTML = `
-                <div class="number">${card.value}</div>
-            `;
-        } else if (card.value === 'MINI WILD') {
-            cardElement.classList.add('mini-wild');
-            cardElement.innerHTML = `
-                <div class="number">${card.value}</div>
-            `;
+        inventory.forEach(player => {
+            const li = document.createElement('li');
+            li.textContent = `${player.name} (Score: ${player.score})`;
+            inventoryList.appendChild(li);
+            
+            // Add to player selector dropdown
+            const option = document.createElement('option');
+            option.value = player.name;
+            option.textContent = `${player.name} (Score: ${player.score})`;
+            playerSelector.appendChild(option);
+        });
+    }
+    
+    function getRandomPlayers() {
+        const allPlayers = [
+            ...legends,
+            ...sevenFeetPlayers,
+            ...goodPlayers,
+            ...midPlayers,
+            ...badPlayers
+        ];
+        const shuffled = allPlayers.sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 7);
+    }
+    
+    function calculateShootingProbability(playerType) {
+        if (playerType === 'legend') return 0.9;
+        if (playerType === 'good') return 0.7;
+        if (playerType === 'mid') return 0.5;
+        if (playerType === 'bad') return 0.3;
+        return 0.5;
+    }
+    
+    function getShootingPoints() {
+        const rand = Math.random();
+        if (rand < 0.2) return 55; // Dunk
+        if (rand < 0.5) return Math.floor(Math.random() * 26) + 20; // 2-pointer (20-45)
+        if (rand < 0.8) return Math.floor(Math.random() * 31) + 50; // 3-pointer (50-80)
+        return 30; // Layup
+    }
+    
+    function shoot(playerType) {
+        const probability = calculateShootingProbability(playerType);
+        const rand = Math.random();
+        if (rand < probability) {
+            const points = getShootingPoints();
+            score += points;
+            updateScore();
+            alert(`You scored ${points} points!`);
         } else {
-            cardElement.classList.add(card.suit); // Add class based on suit for styling
-            cardElement.innerHTML = `
-                <div class="suit">${card.suit}</div>
-                <div class="number">${card.value}</div>
-                <div class="suit" style="bottom: 10px; right: 10px; position: absolute;">${card.suit}</div>
-            `;
+            alert('Missed the shot!');
         }
-        
-        return cardElement;
     }
-
-    // Start game
-    function startGame() {
-        createDeck();
-        playerHand = [dealCard(), dealCard()];
-        aiHand = [dealCard(), dealCard()];
-        pile = [];
-        displayCards();
-    }
-
-    // Hit button handler
-    document.getElementById('hit-btn').addEventListener('click', () => {
-        playerHand.push(dealCard());
-        displayCards();
-        checkWinner();
-    });
-
-    // Stand button handler
-    document.getElementById('stand-btn').addEventListener('click', () => {
-        // Simple AI logic to play against the player
-        while (calculateHandValue(aiHand) < 17) {
-            aiHand.push(dealCard());
+    
+    function selectBestPlayer() {
+        if (inventory.length === 0) {
+            alert('No players in inventory!');
+            return;
         }
-        displayCards();
-        checkWinner();
-    });
-
-    // Calculate hand value
-    function calculateHandValue(hand) {
-        let value = 0;
-        let numAces = 0;
+        const bestPlayer = inventory.reduce((best, player) => {
+            if (best === null || player.score > best.score) {
+                return player;
+            }
+            return best;
+        }, null);
         
-        hand.forEach(card => {
-            if (card.value === 'WILD' || card.value === 'MINI WILD') {
-                value += card.value === 'WILD' ? 16 : 15;
-            } else if (['J', 'Q', 'K'].includes(card.value)) {
-                value += 10;
-            } else if (card.value === 'A') {
-                value += 11;
-                numAces += 1;
-            } else {
-                value += parseInt(card.value);
+        if (bestPlayer) {
+            alert(`Best player selected: ${bestPlayer.name} (Score: ${bestPlayer.score})`);
+            shoot('legend'); // Example, adjust as needed
+        }
+    }
+    
+    spinButton.addEventListener('click', () => {
+        const newPlayers = getRandomPlayers();
+        playersContainer.innerHTML = ''; // Clear previous players
+        playerList.innerHTML = ''; // Clear previous list
+        
+        newPlayers.forEach(player => {
+            const playerDiv = document.createElement('div');
+            playerDiv.className = 'player';
+            playerDiv.textContent = `${player.name} (Score: ${player.score})`;
+            playersContainer.appendChild(playerDiv);
+            
+            // Determine player type for shooting probability
+            let playerType = 'mid';
+            if (legends.includes(player)) playerType = 'legend';
+            else if (goodPlayers.includes(player)) playerType = 'good';
+            else if (sevenFeetPlayers.includes(player)) playerType = 'sevenFeet';
+            else if (badPlayers.includes(player)) playerType = 'bad';
+            
+            addPlayerToList(player.name, player.score);
+            
+            // Add to inventory if not already present
+            if (!inventory.find(p => p.name === player.name)) {
+                inventory.push(player);
+                updateInventoryList();
             }
         });
-
-        while (value > 21 && numAces > 0) {
-            value -= 10;
-            numAces -= 1;
+    });
+    
+    shootButton.addEventListener('click', () => {
+        const selectedPlayer = playerSelector.value;
+        const player = inventory.find(p => p.name === selectedPlayer);
+        
+        if (player) {
+            shoot(player.score > 80 ? 'legend' : 'mid');
+        } else {
+            alert('Please select a valid player.');
         }
-
-        return value;
-    }
-
-    // Check winner
-    function checkWinner() {
-        const playerValue = calculateHandValue(playerHand);
-        const aiValue = calculateHandValue(aiHand);
-
-        if (playerValue > 21) {
-            result.textContent = 'Player busts! AI wins.';
-        } else if (aiValue > 21) {
-            result.textContent = 'AI busts! Player wins.';
-        } else if (playerValue === 21) {
-            result.textContent = 'Blackjack! Player wins.';
-        } else if (aiValue === 21) {
-            result.textContent = 'Blackjack! AI wins.';
-        } else if (aiValue >= 17) {
-            if (playerValue > aiValue) {
-                result.textContent = 'Player wins!';
-            } else if (aiValue > playerValue) {
-                result.textContent = 'AI wins!';
-            } else {
-                result.textContent = 'It\'s a tie!';
-            }
-        }
-    }
-
-    startGame();
+    });
+    
+    selectBestButton.addEventListener('click', selectBestPlayer);
+    
+    updateInventoryList();
+    updateScore();
 });
+
