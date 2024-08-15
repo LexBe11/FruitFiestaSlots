@@ -3,25 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spades O'Clock</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Basketball Spin Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        #slot-machine {
+            margin: 20px 0;
+        }
+        #slot-machine .player {
+            font-size: 1.2em;
+            margin: 10px;
+        }
+        #players {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        #players .player {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        #score, #inventory {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+        #inventory ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #inventory li {
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
-    <div class="casino-container">
-        <div class="header">
-            <h1>Spades O'Clock</h1>
-        </div>
-        <div class="game-area">
-            <div id="player-hand" class="hand"></div>
-            <div id="pile" class="pile"></div>
-            <div id="ai-hand" class="hand"></div>
-        </div>
-        <div class="controls">
-            <button id="hit-btn">Hit</button>
-            <button id="stand-btn">Stand</button>
-        </div>
-        <div id="result" class="result"></div>
+    <h1>Basketball Spin Game</h1>
+    <div id="slot-machine">
+        <div id="player-name" class="player">Spin to get a player!</div>
+        <button id="spin-button">Spin</button>
+        <p>Spin Price: <span id="spin-price">50</span> Points</p>
+        <button id="shoot-button">Shoot</button>
     </div>
-    <script src="blackjack.js"></script>
+    <div id="players"></div>
+    <ul id="player-list"></ul>
+    <div id="score">Score: 0</div>
+    <div id="inventory">
+        <h2>Inventory</h2>
+        <ul id="inventory-list"></ul>
+        <button id="select-best-button">Select Best Player</button>
+        <select id="player-selector"></select>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
